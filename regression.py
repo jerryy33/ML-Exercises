@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def load_data(name: str, m=None, rng=None) -> tuple[np.ndarray, np.ndarray]:
-    data = np.load(name)
+    data = np.load(f"datasets/{name}")
     x = data[:, :-1]
     y = data[:, -1]
 
