@@ -31,19 +31,19 @@ def plot_numbers(numb, tag, rng=None):
     plt.show()
 
 
-def fit_knn(x_data, y_data, k=3):
+def fit_knn(x_data, y_data, k=3) -> KNeighborsClassifier:
     knn = KNeighborsClassifier(n_neighbors=k)
     knn.fit(x_data, y_data)
     return knn
 
 
-def fit_lda(x_data, y_data):
+def fit_lda(x_data, y_data) -> LinearDiscriminantAnalysis:
     lda = LinearDiscriminantAnalysis()
     lda.fit(x_data, y_data)
     return lda
 
 
-def fit_qda(x_data, y_data):
+def fit_qda(x_data, y_data) -> QuadraticDiscriminantAnalysis:
     qda = QuadraticDiscriminantAnalysis()
     qda.fit(x_data, y_data)
     return qda
@@ -55,13 +55,17 @@ def classifier_score(
     | QuadraticDiscriminantAnalysis,
     x_data,
     y_data,
-    error_set: str = "test",
-):
+    error_set="test",
+) -> None:
     score = classifier.score(x_data, y_data)
     print(f"Best {error_set} error for {classifier.__class__.__name__}", score)
 
 
-def train_all_classifiers(x_data, y_data):
+def train_all_classifiers(
+    x_data, y_data
+) -> tuple[
+    KNeighborsClassifier, LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+]:
     knn = fit_knn(x_data, y_data)
     lda = fit_lda(x_data, y_data)
     qda = fit_qda(x_data, y_data)
@@ -69,7 +73,7 @@ def train_all_classifiers(x_data, y_data):
 
 
 if __name__ == "__main__":
-    # Task 1
+    # Exercise 1
     print("Dataset R")
     x_train, y_train = load_data("dataset_R_train.npy")
     x_test, y_test = load_data("dataset_R_test.npy")
@@ -79,6 +83,7 @@ if __name__ == "__main__":
 
     print("Best test error for knn regression: ", regressor_score, end="\n\n")
 
+    # Exercise 2-4
     print("\nDataset E")
     x_train, y_train = load_data("dataset_E_train.npy")
     x_test, y_test = load_data("dataset_E_test.npy")
@@ -115,9 +120,10 @@ if __name__ == "__main__":
     classifier_score(lda_classifier, x_test, y_test)
     classifier_score(qda_classifier, x_test, y_test)
 
+    # Exercise 5
     print("\n\nDataset digits")
     X, y = load_digits(return_X_y=True)
-    # plot_numbers(X, y)
+    plot_numbers(X, y)
     x_train, x_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=66
     )
